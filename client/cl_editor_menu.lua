@@ -220,6 +220,22 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 end
             end
 
+            WarMenu.Button('Change Right Coord Warp')
+            if WarMenu.IsItemSelected() then
+                editorView = 'changeWarpRight'
+                clearInstructionalButtons()
+                setInstructionalButtons(instButtonText['changeSize'])
+                WarMenu.CloseMenu()
+            end
+
+            WarMenu.Button('Change Left Coord Warp')
+            if WarMenu.IsItemSelected() then
+                editorView = 'changeWarpLeft'
+                clearInstructionalButtons()
+                setInstructionalButtons(instButtonText['changeWarp'])
+                WarMenu.CloseMenu()
+            end
+
             WarMenu.Button('Save')
             if WarMenu.IsItemSelected() then
                 project.draws[currentDraw] = editedDraw

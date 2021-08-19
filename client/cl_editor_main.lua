@@ -38,7 +38,16 @@ project = {
             width = 1.0,
             height = 1.0,
             r = 255, g = 255, b = 255, a = 255
-        }
+        },
+        ['draw3'] = {
+            type = 'rect',
+            nick ='draw2',
+            x = 0.0,
+            y = 0.0,
+            width = 1.0,
+            height = 1.0,
+            r = 255, g = 255, b = 255, a = 255
+        },
         
         ]]
 
@@ -109,8 +118,6 @@ Citizen.CreateThread(function()
                     elseif editedDraw.type == 'rect' then
                         editedDraw.x, editedDraw.y = GetCursorPosition()
                     end
-                    
-                    --drawTextHelper('X:~y~'..editedDraw.xCoord..'~s~ / Y:~y~'..editedDraw.yCoord, editedDraw.xCoord-0.2, editedDraw.yCoord+0.0002)
                 end
             elseif editorView == "changeSize" then
                 if editedDraw.type == 'text' then
@@ -125,8 +132,23 @@ Citizen.CreateThread(function()
                         editedDraw.width, editedDraw.height = GetCursorPosition()
                     end
                 end
-                
-                --drawTextHelper("scale: ~y~"..editedDraw.scale, editedX+0.000001, editedY+0.000001)
+            elseif editorView == "changeWarpRight" then
+                if editedDraw.type == 'text' then
+                    if IsControlPressed(0,  24) then
+                        editedDraw.warp.right, retval = GetCursorPosition()
+                    end
+                    DrawRect(editedDraw.warp.right, 0.5, 0.01, 1.01, 255, 0, 0, 150)
+                    DrawRect(editedDraw.warp.left, 0.5, 0.01, 1.01, 255, 0, 0, 80)
+                end
+            elseif editorView == "changeWarpLeft" then
+                if editedDraw.type == 'text' then
+                    if IsControlPressed(0,  24) then
+                        editedDraw.warp.left, retval = GetCursorPosition()
+                    end
+                    
+                    DrawRect(editedDraw.warp.right, 0.5, 0.01, 1.01, 255, 0, 0, 80)
+                    DrawRect(editedDraw.warp.left, 0.5, 0.01, 1.01, 255, 0, 0, 150)
+                end
             end
         end
         Citizen.Wait(0)
