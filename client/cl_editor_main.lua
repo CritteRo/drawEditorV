@@ -26,10 +26,11 @@ project = {
             xCoord = 0.85,
             yCoord = 0.08,
         },]]
-    }
+    },
 }
 
 Citizen.CreateThread(function()
+    requestButtonScaleform()
     setInstructionalButtons(instButtonText[view])
 
     while true do
@@ -64,10 +65,8 @@ Citizen.CreateThread(function()
                 else
                     drawText(k)
                 end
-                
             end
         end
-
         Citizen.Wait(0)
     end
 end)

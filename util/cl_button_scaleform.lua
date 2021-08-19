@@ -47,17 +47,21 @@ instButtonText = {
     ['draws'] = {
         {input = "~INPUT_ENTER~", text = "Open Project Menu"},
     },
-    ['drawEdit'] = {
+    ['drawEditor'] = {
         {input = "~INPUT_ENTER~", text = "Open Editor Menu"},
     },
 }
 
-buttonScaleformId = Scaleform.Request("instructional_buttons")
-DrawScaleformMovieFullscreen(buttonScaleformId, 255, 255, 255, 0, 0)
 
-Scaleform.CallFunction(buttonScaleformId, false, "SET_BACKGROUND_COLOUR", 0,0,0,80)
-Scaleform.CallFunction(buttonScaleformId, false, "CLEAR_ALL")
-Scaleform.CallFunction(buttonScaleformId, false, "SET_CLEAR_SPACE", 200)
+function requestButtonScaleform()
+    buttonScaleformId = Scaleform.Request("instructional_buttons")
+    DrawScaleformMovieFullscreen(buttonScaleformId, 255, 255, 255, 0, 0)
+
+    Scaleform.CallFunction(buttonScaleformId, false, "SET_BACKGROUND_COLOUR", 0,0,0,80)
+    Scaleform.CallFunction(buttonScaleformId, false, "CLEAR_ALL")
+    Scaleform.CallFunction(buttonScaleformId, false, "SET_CLEAR_SPACE", 200)
+end
+
 
 function clearInstructionalButtons()
     Scaleform.CallFunction(buttonScaleformId, false, "CLEAR_ALL")

@@ -1,9 +1,9 @@
-menuStyle = {titleColor = {255, 255, 255}, subTitleColor = {255, 255, 255}, titleBackgroundSprite = {dict = 'commonmenu', name = 'interaction_bgd'}}
+menuStyle = {titleColor = {255, 255, 255}, subTitleColor = {255, 255, 255}, --[[titleBackgroundSprite = {dict = 'commonmenu', name = 'interaction_bgd'}]]}
 
 WarMenu.CreateMenu('editor.ProjectMenu.main', 'drawEditorV', 'Select a project', menuStyle)
 
-WarMenu.CreateMenu('editor.DrawsMenu.main', 'drawEditorV', 'Main Menu', menuStyle)
-WarMenu.CreateSubMenu('editor.DrawsMenu.textEditor', 'editor.DrawsMenu.main', 'Edit Text', menuStyle)
+WarMenu.CreateMenu('editor.DrawsMenu.main', 'drawEditorV', 'Main Menu')
+WarMenu.CreateSubMenu('editor.DrawsMenu.textEditor', 'editor.DrawsMenu.main', 'Edit Text')
 
 AddEventHandler('drawEditorV:OpenProjectMenu', function()
     if not WarMenu.IsAnyMenuOpened() and view == 'project' then
@@ -40,11 +40,9 @@ end)
 
 AddEventHandler('drawEditorV:OpenDrawsMenu', function()
     if not WarMenu.IsAnyMenuOpened() and view == 'draws' then
-        WarMenu.CloseMenu()
         WarMenu.SetMenuTitle('editor.DrawsMenu.main', project.name)
         WarMenu.OpenMenu('editor.DrawsMenu.main')
     elseif not WarMenu.IsAnyMenuOpened() and view == 'drawEditor' then
-        WarMenu.CloseMenu()
         WarMenu.SetMenuTitle('editor.DrawsMenu.textEditor', project.draws[currentDraw].nick)
         WarMenu.OpenMenu('editor.DrawsMenu.textEditor')
     end
@@ -56,6 +54,8 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 if WarMenu.IsItemSelected() then
                     currentDraw = k
                     view = "drawEditor"
+                    clearInstructionalButtons()
+                    setInstructionalButtons(instButtonText[view])
                     WarMenu.CloseMenu()
                     WarMenu.OpenMenu('editor.DrawsMenu.textEditor')
                 end
@@ -81,7 +81,9 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
             WarMenu.Button('Go back')
             if WarMenu.IsItemSelected() then
                 currentDraw = 0
+                clearInstructionalButtons()
                 view = "draws"
+                setInstructionalButtons(instButtonText[view])
                 WarMenu.CloseMenu()
                 WarMenu.OpenMenu('editor.DrawsMenu.main')
             end
