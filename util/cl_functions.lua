@@ -1,3 +1,5 @@
+RegisterNetEvent('drawEditorV:ShowBusySpinner')
+
 function editorStartNewProject(_name)
     project = {
         name = _name,
@@ -57,3 +59,16 @@ function notify(string, colID)
     AddTextComponentSubstringPlayerName(string)
     EndTextCommandThefeedPostTicker(true, true)
 end
+
+AddEventHandler('drawEditorV:ShowBusySpinner', function(type, toggle, string, colID)
+    if type == "save" then
+        if toggle == 1 then
+            BeginTextCommandBusyspinnerOn("STRING")
+            AddTextComponentSubstringPlayerName("Saving "..string..".")
+            EndTextCommandBusyspinnerOn(1)
+        elseif toggle == 0 then
+            BusyspinnerOff()
+            notify(string, colID)
+        end
+    end
+end)
