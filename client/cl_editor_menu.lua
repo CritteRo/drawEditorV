@@ -99,6 +99,13 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     --WarMenu.CloseMenu()
                 end
             end
+            WarMenu.Button('~g~Export Project.~s~')
+            if WarMenu.IsItemSelected() then
+                notify("can't do that now.", 6)
+                TriggerServerEvent('drawEditorV:ExportProject', project)
+                view = "project"
+                WarMenu.CloseMenu()
+            end
             WarMenu.Button('~r~Exit Project.~s~')
             if WarMenu.IsItemSelected() then
                 view = "project"

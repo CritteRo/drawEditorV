@@ -11,3 +11,5 @@ client_scripts {
     'client/cl_editor_menu.lua',
     'client/cl_editor_main.lua',
 }
+
+server_script 'saves/sv_saveFiles.lua'
