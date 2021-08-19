@@ -42,3 +42,18 @@ function editorCreateNewTextDraw(_nick)
         yCoord = 0.5,
     }
 end
+
+function alert(text)
+    SetTextComponentFormat("STRING")
+    AddTextComponentString(text)
+    DisplayHelpTextFromStringLabel(0,0,1,-1)
+end
+
+function notify(string, colID)
+    if colID ~= nil then
+        ThefeedSetNextPostBackgroundColor(colID)
+    end
+    BeginTextCommandThefeedPost("STRING")
+    AddTextComponentSubstringPlayerName(string)
+    EndTextCommandThefeedPostTicker(true, true)
+end

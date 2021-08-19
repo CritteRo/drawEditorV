@@ -36,11 +36,16 @@ AddEventHandler('drawEditorV:OpenProjectMenu', function()
                     Wait(0);
                 end
                 if (GetOnscreenKeyboardResult()) then
-                    view = 'draws'
-                    clearInstructionalButtons()
-                    setInstructionalButtons(instButtonText[view])
-                    editorStartNewProject(GetOnscreenKeyboardResult())
-                    WarMenu.CloseMenu()
+                    if GetOnscreenKeyboardResult() ~= "" then
+                        view = 'draws'
+                        clearInstructionalButtons()
+                        setInstructionalButtons(instButtonText[view])
+                        editorStartNewProject(GetOnscreenKeyboardResult())
+                        WarMenu.CloseMenu()
+                        notify(GetOnscreenKeyboardResult().." project started!", 116)
+                    else
+                        notify('Please add a name.', 6)
+                    end
                 end
             end
             WarMenu.End()
@@ -87,7 +92,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     --clearInstructionalButtons()
                     --setInstructionalButtons(instButtonText[view])
                     if project.draws[GetOnscreenKeyboardResult()] ~= nil then
-                        --note here
+                        notify('This nickname is already taken.', 6)
                     else
                         editorCreateNewTextDraw(GetOnscreenKeyboardResult())
                     end
