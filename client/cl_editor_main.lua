@@ -3,10 +3,14 @@ print('                               Editor loaded                             
 print('--[[============================drawEditorV=================================]]--')
 
 view = "project"
+editorView = ""
 currentDraw = 0
+editedDraw = {
+
+}
 
 project = {
-    name = "Project Name",
+    name = "unk",
     drawNicks = {
         --"draw1",
     },
@@ -32,6 +36,7 @@ project = {
 Citizen.CreateThread(function()
     requestButtonScaleform()
     setInstructionalButtons(instButtonText[view])
+    SetNuiFocus(true,true)
 
     while true do
         if not WarMenu.IsAnyMenuOpened() then
@@ -49,6 +54,7 @@ Citizen.CreateThread(function()
                 elseif view == 'drawEditor' then
                     clearInstructionalButtons()
                     setInstructionalButtons(instButtonText[view])
+                    editorView = ""
                     TriggerEvent('drawEditorV:OpenDrawsMenu')
                 end
             end
@@ -59,12 +65,31 @@ Citizen.CreateThread(function()
                 drawText(k)
             end
         elseif view == 'drawEditor' then
+            if not WarMenu.IsAnyMenuOpened() then
+                SetMouseCursorActiveThisFrame()
+            end
+            --local x,y = GetCursorPosition()
+            --drawText2(x+0.000001, y+0.000001)
             for i,k in pairs(project.draws) do
                 if k.nick ~= currentDraw then
                     drawText(k, 80)
                 else
-                    drawText(k)
+                    drawText(editedDraw)
                 end
+            end
+            if editorView == "changePos" then
+                if IsControlPressed(0,  24) then  -- click
+                    editedDraw.xCoord, editedDraw.yCoord = GetCursorPosition()
+                    --drawTextHelper('X:~y~'..editedDraw.xCoord..'~s~ / Y:~y~'..editedDraw.yCoord, editedDraw.xCoord-0.2, editedDraw.yCoord+0.0002)
+                end
+            elseif editorView == "changeSize" then
+                editedX, editedY = GetCursorPosition()
+                if IsControlJustPressed(0,  96) then  -- up
+                    editedDraw.scale = editedDraw.scale + 0.05
+                elseif IsControlJustPressed(0,  97) then  -- down
+                    editedDraw.scale = editedDraw.scale - 0.05
+                end
+                --drawTextHelper("scale: ~y~"..editedDraw.scale, editedX+0.000001, editedY+0.000001)
             end
         end
         Citizen.Wait(0)
@@ -91,4 +116,20 @@ function drawText(_data, _overrideAlpha)
     SetTextEntry("STRING")
     AddTextComponentString(_data.string)
     DrawText(_data.xCoord, _data.yCoord)
+end
+
+function drawTextHelper(string, x, y)
+    SetTextFont(0)
+    SetTextProportional(1)
+    SetTextScale(0.0, 0.5)
+    SetTextColour(255, 255, 255, 255)
+    SetTextDropshadow(1, 0, 0, 0, 255)
+    SetTextEdge(1, 0, 0, 0, 255)
+    SetTextDropShadow()
+    SetTextOutline()
+    SetTextJustification(1)
+    SetTextWrap(0.01, 0.99)
+    SetTextEntry("STRING")
+    AddTextComponentString(string)
+    DrawText(x, y)
 end

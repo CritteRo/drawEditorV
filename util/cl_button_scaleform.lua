@@ -50,6 +50,15 @@ instButtonText = {
     ['drawEditor'] = {
         {input = "~INPUT_ENTER~", text = "Open Editor Menu"},
     },
+    ['changePos'] = {
+        {input = "~INPUT_ENTER~", text = "Open Editor Menu"},
+        {input = "~INPUT_ATTACK~", text = "Move Text"},
+    },
+    ['changeSize'] = {
+        {input = "~INPUT_ENTER~", text = "Open Editor Menu"},
+        {input = "~INPUT_VEH_CINEMATIC_UP_ONLY~", text = "Change Size"},
+        {input = "~INPUT_VEH_CINEMATIC_DOWN_ONLY~", text = "Change Size"},
+    },
 }
 
 

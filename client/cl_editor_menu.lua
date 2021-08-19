@@ -1,5 +1,9 @@
 menuStyle = {titleColor = {255, 255, 255}, subTitleColor = {255, 255, 255}, --[[titleBackgroundSprite = {dict = 'commonmenu', name = 'interaction_bgd'}]]}
 
+
+justifyItems = {"Center", "Left", "Right"}
+
+_comboBoxIndex = 1
 WarMenu.CreateMenu('editor.ProjectMenu.main', 'drawEditorV', 'Select a project', menuStyle)
 
 WarMenu.CreateMenu('editor.DrawsMenu.main', 'drawEditorV', 'Main Menu')
@@ -13,6 +17,15 @@ AddEventHandler('drawEditorV:OpenProjectMenu', function()
 
     while true do
         if WarMenu.Begin('editor.ProjectMenu.main') then
+            if project.name ~= 'unk' then
+                WarMenu.Button('Continue Existing Project')
+                if WarMenu.IsItemSelected() then
+                    view = 'draws'
+                    clearInstructionalButtons()
+                    setInstructionalButtons(instButtonText[view])
+                    WarMenu.CloseMenu()
+                end
+            end
 
             WarMenu.Button('Start New Project')
             if WarMenu.IsItemSelected() then
@@ -50,10 +63,11 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
     while true do
         if WarMenu.Begin('editor.DrawsMenu.main') then
             for i,k in pairs(project.drawNicks) do
-                WarMenu.Button('Edit "~y~'..k..'~s~"')
+                WarMenu.Button('Edit "~y~'..k..'~s~" '..project.draws[k].type)
                 if WarMenu.IsItemSelected() then
                     currentDraw = k
                     view = "drawEditor"
+                    editedDraw = project.draws[currentDraw]
                     clearInstructionalButtons()
                     setInstructionalButtons(instButtonText[view])
                     WarMenu.CloseMenu()
@@ -72,17 +86,84 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     --view = 'draws'
                     --clearInstructionalButtons()
                     --setInstructionalButtons(instButtonText[view])
-                    editorCreateNewTextDraw(GetOnscreenKeyboardResult())
+                    if project.draws[GetOnscreenKeyboardResult()] ~= nil then
+                        --note here
+                    else
+                        editorCreateNewTextDraw(GetOnscreenKeyboardResult())
+                    end
                     --WarMenu.CloseMenu()
                 end
             end
+            WarMenu.Button('~r~Exit Project.~s~')
+            if WarMenu.IsItemSelected() then
+                view = "project"
+                WarMenu.CloseMenu()
+            end
             WarMenu.End()
         elseif WarMenu.Begin('editor.DrawsMenu.textEditor') then
-            WarMenu.Button('Go back')
+            WarMenu.Button('Change Coords (Mouse)')
             if WarMenu.IsItemSelected() then
+                editorView = 'changePos'
+                clearInstructionalButtons()
+                setInstructionalButtons(instButtonText['changePos'])
+                WarMenu.CloseMenu()
+            end
+
+            WarMenu.Button('Change Size (Mouse)')
+            if WarMenu.IsItemSelected() then
+                editorView = 'changeSize'
+                clearInstructionalButtons()
+                setInstructionalButtons(instButtonText['changeSize'])
+                WarMenu.CloseMenu()
+            end
+
+            WarMenu.Button('Change String')
+            if WarMenu.IsItemSelected() then
+                AddTextEntry('EDI_NEW_TXT', "Set String:")
+                DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.string, "", "", "", 50)
+                while (UpdateOnscreenKeyboard() == 0) do
+                    DisableAllControlActions(0);
+                    Wait(0);
+                end
+                if (GetOnscreenKeyboardResult()) then
+                    editedDraw.string = GetOnscreenKeyboardResult()
+                end
+            end
+
+            local _, comboBoxIndex = WarMenu.ComboBox('Change Justification', justifyItems, _comboBoxIndex)
+            if _comboBoxIndex ~= comboBoxIndex then
+                _comboBoxIndex = comboBoxIndex
+                editedDraw.justification = _comboBoxIndex - 1
+            end
+            if WarMenu.IsItemSelected() then
+                AddTextEntry('EDI_NEW_TXT', "Set String:")
+                DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.string, "", "", "", 50)
+                while (UpdateOnscreenKeyboard() == 0) do
+                    DisableAllControlActions(0);
+                    Wait(0);
+                end
+                if (GetOnscreenKeyboardResult()) then
+                    editedDraw.string = GetOnscreenKeyboardResult()
+                end
+            end
+
+            WarMenu.Button('Save')
+            if WarMenu.IsItemSelected() then
+                project.draws[currentDraw] = editedDraw
                 currentDraw = 0
+                editedDraw = {}
                 clearInstructionalButtons()
                 view = "draws"
+                setInstructionalButtons(instButtonText[view])
+                WarMenu.CloseMenu()
+                WarMenu.OpenMenu('editor.DrawsMenu.main')
+            end
+            WarMenu.Button('Cancel')
+            if WarMenu.IsItemSelected() then
+                view = "draws"
+                editedDraw = project.draws[currentDraw]
+                currentDraw = 0
+                clearInstructionalButtons()
                 setInstructionalButtons(instButtonText[view])
                 WarMenu.CloseMenu()
                 WarMenu.OpenMenu('editor.DrawsMenu.main')
@@ -94,3 +175,10 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
         Citizen.Wait(0)
     end
 end)
+
+function GetCursorPosition()
+	if(true) then
+		local cursorX, cursorY = GetControlNormal(0, 239), GetControlNormal(0, 240)
+		return cursorX, cursorY
+	end
+end
