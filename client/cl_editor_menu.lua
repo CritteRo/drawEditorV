@@ -7,7 +7,8 @@ _comboBoxIndex = 1
 WarMenu.CreateMenu('editor.ProjectMenu.main', 'drawEditorV', 'Select a project', menuStyle)
 
 WarMenu.CreateMenu('editor.DrawsMenu.main', 'drawEditorV', 'Main Menu')
-WarMenu.CreateSubMenu('editor.DrawsMenu.textEditor', 'editor.DrawsMenu.main', 'Edit Text')
+WarMenu.CreateSubMenu('editor.DrawsMenu.text', 'editor.DrawsMenu.main', 'Edit Text')
+WarMenu.CreateSubMenu('editor.DrawsMenu.rect', 'editor.DrawsMenu.main', 'Edit Rect')
 
 AddEventHandler('drawEditorV:OpenProjectMenu', function()
     if not WarMenu.IsAnyMenuOpened() and view == 'project' then
@@ -62,7 +63,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
         WarMenu.OpenMenu('editor.DrawsMenu.main')
     elseif not WarMenu.IsAnyMenuOpened() and view == 'drawEditor' then
         WarMenu.SetMenuTitle('editor.DrawsMenu.textEditor', project.draws[currentDraw].nick)
-        WarMenu.OpenMenu('editor.DrawsMenu.textEditor')
+        WarMenu.OpenMenu('editor.DrawsMenu.'..project.draws[currentDraw].type)
     end
 
     while true do
@@ -76,7 +77,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     clearInstructionalButtons()
                     setInstructionalButtons(instButtonText[view])
                     WarMenu.CloseMenu()
-                    WarMenu.OpenMenu('editor.DrawsMenu.textEditor')
+                    WarMenu.OpenMenu('editor.DrawsMenu.'..project.draws[k].type)
                 end
             end
             WarMenu.Button('Create new text draw')
@@ -99,6 +100,26 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     --WarMenu.CloseMenu()
                 end
             end
+            WarMenu.Button('Create new rect draw')
+            if WarMenu.IsItemSelected() then
+                AddTextEntry('EDI_NEW_TXT', "Text nickname (NOT TEXT STRING / Will also be the function name): ")
+                DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", "", "", "", "", 50)
+                while (UpdateOnscreenKeyboard() == 0) do
+                    DisableAllControlActions(0);
+                    Wait(0);
+                end
+                if (GetOnscreenKeyboardResult()) then
+                    --view = 'draws'
+                    --clearInstructionalButtons()
+                    --setInstructionalButtons(instButtonText[view])
+                    if project.draws[GetOnscreenKeyboardResult()] ~= nil then
+                        notify('This nickname is already taken.', 6)
+                    else
+                        editorCreateNewRectDraw(GetOnscreenKeyboardResult())
+                    end
+                    --WarMenu.CloseMenu()
+                end
+            end
             WarMenu.Button('~g~Export Project.~s~')
             if WarMenu.IsItemSelected() then
                 --notify("can't do that now.", 6)
@@ -112,7 +133,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 WarMenu.CloseMenu()
             end
             WarMenu.End()
-        elseif WarMenu.Begin('editor.DrawsMenu.textEditor') then
+        elseif WarMenu.Begin('editor.DrawsMenu.text') then
             WarMenu.Button('Change Coords (Mouse)')
             if WarMenu.IsItemSelected() then
                 editorView = 'changePos'
@@ -159,6 +180,122 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 end
             end
 
+            WarMenu.Button('Change Colour & Alpha')
+            if WarMenu.IsItemSelected() then
+                AddTextEntry('EDI_NEW_TXT', "Set ~r~RED~s~ color:")
+                DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.colour.r, "", "", "", 3)
+                while (UpdateOnscreenKeyboard() == 0) do
+                    DisableAllControlActions(0);
+                    Wait(0);
+                end
+                if (GetOnscreenKeyboardResult()) then
+                    editedDraw.colour.r = tonumber(GetOnscreenKeyboardResult())
+                    AddTextEntry('EDI_NEW_TXT', "Set ~g~GREEN~s~ color:")
+                    DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.colour.g, "", "", "", 3)
+                    while (UpdateOnscreenKeyboard() == 0) do
+                        DisableAllControlActions(0);
+                        Wait(0);
+                    end
+                    if (GetOnscreenKeyboardResult()) then
+                        editedDraw.colour.g = tonumber(GetOnscreenKeyboardResult())
+                        AddTextEntry('EDI_NEW_TXT', "Set ~b~BLUE~s~ color:")
+                        DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.colour.b, "", "", "", 3)
+                        while (UpdateOnscreenKeyboard() == 0) do
+                            DisableAllControlActions(0);
+                            Wait(0);
+                        end
+                        if (GetOnscreenKeyboardResult()) then
+                            editedDraw.colour.b = tonumber(GetOnscreenKeyboardResult())
+                            AddTextEntry('EDI_NEW_TXT', "Set ALPHA:")
+                            DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.colour.a, "", "", "", 3)
+                            while (UpdateOnscreenKeyboard() == 0) do
+                                DisableAllControlActions(0);
+                                Wait(0);
+                            end
+                            if (GetOnscreenKeyboardResult()) then
+                                editedDraw.colour.a = tonumber(GetOnscreenKeyboardResult())
+                            end
+                        end
+                    end
+                end
+            end
+
+            WarMenu.Button('Save')
+            if WarMenu.IsItemSelected() then
+                project.draws[currentDraw] = editedDraw
+                currentDraw = 0
+                editedDraw = {}
+                clearInstructionalButtons()
+                view = "draws"
+                setInstructionalButtons(instButtonText[view])
+                WarMenu.CloseMenu()
+                WarMenu.OpenMenu('editor.DrawsMenu.main')
+            end
+            WarMenu.Button('Cancel')
+            if WarMenu.IsItemSelected() then
+                view = "draws"
+                editedDraw = project.draws[currentDraw]
+                currentDraw = 0
+                clearInstructionalButtons()
+                setInstructionalButtons(instButtonText[view])
+                WarMenu.CloseMenu()
+                WarMenu.OpenMenu('editor.DrawsMenu.main')
+            end
+            WarMenu.End()
+        elseif WarMenu.Begin('editor.DrawsMenu.rect') then
+            WarMenu.Button('Change Coords (Mouse)')
+            if WarMenu.IsItemSelected() then
+                editorView = 'changePos'
+                clearInstructionalButtons()
+                setInstructionalButtons(instButtonText['changePos'])
+                WarMenu.CloseMenu()
+            end
+            WarMenu.Button('Change Size (Mouse)')
+            if WarMenu.IsItemSelected() then
+                editorView = 'changeSize'
+                clearInstructionalButtons()
+                setInstructionalButtons(instButtonText['changeSize'])
+                WarMenu.CloseMenu()
+            end
+            WarMenu.Button('Change Colour & Alpha')
+            if WarMenu.IsItemSelected() then
+                AddTextEntry('EDI_NEW_TXT', "Set ~r~RED~s~ color:")
+                DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.r, "", "", "", 3)
+                while (UpdateOnscreenKeyboard() == 0) do
+                    DisableAllControlActions(0);
+                    Wait(0);
+                end
+                if (GetOnscreenKeyboardResult()) then
+                    editedDraw.r = tonumber(GetOnscreenKeyboardResult())
+                    AddTextEntry('EDI_NEW_TXT', "Set ~g~GREEN~s~ color:")
+                    DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.g, "", "", "", 3)
+                    while (UpdateOnscreenKeyboard() == 0) do
+                        DisableAllControlActions(0);
+                        Wait(0);
+                    end
+                    if (GetOnscreenKeyboardResult()) then
+                        editedDraw.g = tonumber(GetOnscreenKeyboardResult())
+                        AddTextEntry('EDI_NEW_TXT', "Set ~b~BLUE~s~ color:")
+                        DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.b, "", "", "", 3)
+                        while (UpdateOnscreenKeyboard() == 0) do
+                            DisableAllControlActions(0);
+                            Wait(0);
+                        end
+                        if (GetOnscreenKeyboardResult()) then
+                            editedDraw.b = tonumber(GetOnscreenKeyboardResult())
+                            AddTextEntry('EDI_NEW_TXT', "Set ALPHA:")
+                            DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.a, "", "", "", 3)
+                            while (UpdateOnscreenKeyboard() == 0) do
+                                DisableAllControlActions(0);
+                                Wait(0);
+                            end
+                            if (GetOnscreenKeyboardResult()) then
+                                editedDraw.a = tonumber(GetOnscreenKeyboardResult())
+                            end
+                        end
+                    end
+                end
+            end
             WarMenu.Button('Save')
             if WarMenu.IsItemSelected() then
                 project.draws[currentDraw] = editedDraw

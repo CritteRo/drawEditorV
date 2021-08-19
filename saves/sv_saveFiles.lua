@@ -2,6 +2,7 @@ RegisterNetEvent('drawEditorV:ExportProject')
 
 AddEventHandler('drawEditorV:ExportProject', function(project)
     local src = source
+    local json = json.encode(project)
     TriggerClientEvent('drawEditorV:ShowBusySpinner', src, 'save', 1, '~y~drawEditorV_export_'..project.name..'.lua~s~')
     file=io.open("drawEditorV\\drawEditorV_export_"..project.name..".lua", "w+")
     io.output(file)
@@ -15,6 +16,8 @@ AddEventHandler('drawEditorV:ExportProject', function(project)
                 io.write("SetTextEdge("..k.edge.dist..", "..k.edge.r..","..k.edge.g..", "..k.edge.b..", "..k.edge.a..")\nSetTextDropShadow()\nSetTextOutline()\nSetTextJustification("..k.justification..")\nSetTextWrap("..k.warp.left..", "..k.warp.right..")\n")
                 Citizen.Wait(10)
                 io.write("SetTextEntry('STRING')\nAddTextComponentString('"..k.string.."')\nDrawText("..k.xCoord..", "..k.yCoord..")\n--[[  :: END OF "..k.nick.." ::  ]]--\r\n")
+            elseif k.type == 'rect' then
+                io.write("--[[  :: "..k.nick.." ::  ]]--\nDrawRect("..k.x..", "..k.y..", "..k.width..", "..k.height..", "..k.r..", "..k.g..", "..k.b..", "..k.a..")\n--[[  :: END OF "..k.nick.." ::  ]]--\r\n")
             end
         end
         io.write('--[[ TEXT DRAWS BUILT USING drawEditorV for FiveM. Resource created by CritteR ]]--')
@@ -27,6 +30,8 @@ AddEventHandler('drawEditorV:ExportProject', function(project)
     end
     io.close()
 end)
+
+AddEventHandler('drawEditorV:')
 
 --[[
 function drawText(_data, _overrideAlpha)

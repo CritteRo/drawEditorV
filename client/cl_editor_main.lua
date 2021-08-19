@@ -29,7 +29,19 @@ project = {
             string = "Drawable Text",
             xCoord = 0.85,
             yCoord = 0.08,
-        },]]
+        },
+        ['draw2'] = {
+            type = 'rect',
+            nick ='draw2',
+            x = 0.0,
+            y = 0.0,
+            width = 1.0,
+            height = 1.0,
+            r = 255, g = 255, b = 255, a = 255
+        }
+        
+        ]]
+
     },
 }
 
@@ -62,7 +74,12 @@ Citizen.CreateThread(function()
 
         if view == 'draws' then
             for i,k in pairs(project.draws) do
-                drawText(k)
+                if k.type == 'text' then
+                    drawText(k)
+                elseif k.type == 'rect' then
+                    DrawRect(k.x, k.y, k.width, k.height, k.r, k.g, k.b, k.a)
+                end
+                
             end
         elseif view == 'drawEditor' then
             if not WarMenu.IsAnyMenuOpened() then
@@ -72,23 +89,43 @@ Citizen.CreateThread(function()
             --drawText2(x+0.000001, y+0.000001)
             for i,k in pairs(project.draws) do
                 if k.nick ~= currentDraw then
-                    drawText(k, 80)
+                    if k.type == 'text' then
+                        drawText(k, 80)
+                    elseif k.type == 'rect' then
+                        DrawRect(k.x, k.y, k.width, k.height, k.r, k.g, k.b, 80)
+                    end
                 else
-                    drawText(editedDraw)
+                    if k.type == 'text' then
+                        drawText(editedDraw)
+                    elseif k.type == 'rect' then
+                        DrawRect(k.x, k.y, k.width, k.height, k.r, k.g, k.b, k.a)
+                    end
                 end
             end
             if editorView == "changePos" then
                 if IsControlPressed(0,  24) then  -- click
-                    editedDraw.xCoord, editedDraw.yCoord = GetCursorPosition()
+                    if editedDraw.type == 'text' then
+                        editedDraw.xCoord, editedDraw.yCoord = GetCursorPosition()
+                    elseif editedDraw.type == 'rect' then
+                        editedDraw.x, editedDraw.y = GetCursorPosition()
+                    end
+                    
                     --drawTextHelper('X:~y~'..editedDraw.xCoord..'~s~ / Y:~y~'..editedDraw.yCoord, editedDraw.xCoord-0.2, editedDraw.yCoord+0.0002)
                 end
             elseif editorView == "changeSize" then
-                editedX, editedY = GetCursorPosition()
-                if IsControlJustPressed(0,  96) then  -- up
-                    editedDraw.scale = editedDraw.scale + 0.05
-                elseif IsControlJustPressed(0,  97) then  -- down
-                    editedDraw.scale = editedDraw.scale - 0.05
+                if editedDraw.type == 'text' then
+                    editedX, editedY = GetCursorPosition()
+                    if IsControlJustPressed(0,  96) then  -- up
+                        editedDraw.scale = editedDraw.scale + 0.05
+                    elseif IsControlJustPressed(0,  97) then  -- down
+                        editedDraw.scale = editedDraw.scale - 0.05
+                    end
+                elseif editedDraw.type == 'rect' then
+                    if IsControlPressed(0,  24) then
+                        editedDraw.width, editedDraw.height = GetCursorPosition()
+                    end
                 end
+                
                 --drawTextHelper("scale: ~y~"..editedDraw.scale, editedX+0.000001, editedY+0.000001)
             end
         end

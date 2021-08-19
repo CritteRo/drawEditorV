@@ -44,6 +44,18 @@ function editorCreateNewTextDraw(_nick)
         yCoord = 0.5,
     }
 end
+function editorCreateNewRectDraw(_nick)
+    project.drawNicks[#project.drawNicks + 1] = _nick
+    project.draws[_nick] = {
+        type = 'rect',
+        nick =_nick,
+        x = 0.5,
+        y = 0.5,
+        width = 0.2,
+        height = 0.2,
+        r = 255, g = 255, b = 255, a = 255
+    }
+end
 
 function alert(text)
     SetTextComponentFormat("STRING")
