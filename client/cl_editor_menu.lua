@@ -92,8 +92,22 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     --view = 'draws'
                     --clearInstructionalButtons()
                     --setInstructionalButtons(instButtonText[view])
+                    local result = GetOnscreenKeyboardResult()
                     if project.draws[GetOnscreenKeyboardResult()] ~= nil then
-                        notify('This nickname is already taken.', 6)
+                        if project.draws[result].type == 'text' then
+                            AddTextEntry('EDI_NEW_TXT', "Copying '"..result.."': Text nickname (NOT TEXT STRING / Will also be the function name): ")
+                            DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", "", "", "", "", 50)
+                            while (UpdateOnscreenKeyboard() == 0) do
+                                DisableAllControlActions(0);
+                                Wait(0);
+                            end
+                            if (GetOnscreenKeyboardResult()) then
+                                local result2 = GetOnscreenKeyboardResult()
+                                editorCreateNewTextDraw(result2, result)
+                            end
+                        else
+                            notify('This nickname is already taken.', 6)
+                        end
                     else
                         editorCreateNewTextDraw(GetOnscreenKeyboardResult())
                     end
@@ -112,10 +126,24 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     --view = 'draws'
                     --clearInstructionalButtons()
                     --setInstructionalButtons(instButtonText[view])
-                    if project.draws[GetOnscreenKeyboardResult()] ~= nil then
-                        notify('This nickname is already taken.', 6)
+                    local result = GetOnscreenKeyboardResult()
+                    if project.draws[result] ~= nil then
+                        if project.draws[result].type == 'rect' then
+                            AddTextEntry('EDI_NEW_TXT', "Copying '"..result.."': Text nickname (NOT TEXT STRING / Will also be the function name): ")
+                            DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", "", "", "", "", 50)
+                            while (UpdateOnscreenKeyboard() == 0) do
+                                DisableAllControlActions(0);
+                                Wait(0);
+                            end
+                            if (GetOnscreenKeyboardResult()) then
+                                local result2 = GetOnscreenKeyboardResult()
+                                editorCreateNewRectDraw(result2, result)
+                            end
+                        else
+                            notify('This nickname is already taken.', 6)
+                        end
                     else
-                        editorCreateNewRectDraw(GetOnscreenKeyboardResult())
+                        editorCreateNewRectDraw(result)
                     end
                     --WarMenu.CloseMenu()
                 end

@@ -26,35 +26,65 @@ function editorStartNewProject(_name)
     }
 end
 
-function editorCreateNewTextDraw(_nick)
+function editorCreateNewTextDraw(_nick, _copy)
     project.drawNicks[#project.drawNicks + 1] = _nick
-    project.draws[_nick] = {
-        type = 'text',
-        nick = _nick,
-        font = 0,
-        scale = 0.9,
-        colour = {r = 255, g = 255, b = 255, a = 255},
-        dropShadow = {dist = 0, r = 255, g = 255, b = 255, a = 255},
-        edge = {dist = 1, r = 0, g = 0, b = 0, a = 255},
-        outline = true,
-        justification = 1,
-        warp = {left = 0.01, right = 0.99},
-        string = "New Drawable Text",
-        xCoord = 0.5,
-        yCoord = 0.5,
-    }
+    if _copy ~= nil then
+        project.draws[_nick] = {
+            type = 'text',
+            nick = _nick,
+            font = project.draws[_copy].font,
+            scale = project.draws[_copy].scale,
+            colour = project.draws[_copy].colour,
+            dropShadow = project.draws[_copy].dropShadow,
+            edge = project.draws[_copy].edge,
+            outline = project.draws[_copy].outline,
+            justification = project.draws[_copy].justification,
+            warp = project.draws[_copy].warp,
+            string = project.draws[_copy].string,
+            xCoord = project.draws[_copy].xCoord,
+            yCoord = project.draws[_copy].yCoord,
+        }
+    else
+        project.draws[_nick] = {
+            type = 'text',
+            nick = _nick,
+            font = 0,
+            scale = 0.9,
+            colour = {r = 255, g = 255, b = 255, a = 255},
+            dropShadow = {dist = 0, r = 255, g = 255, b = 255, a = 255},
+            edge = {dist = 1, r = 0, g = 0, b = 0, a = 255},
+            outline = true,
+            justification = 1,
+            warp = {left = 0.01, right = 0.99},
+            string = "New Drawable Text",
+            xCoord = 0.5,
+            yCoord = 0.5,
+        }
+    end
 end
-function editorCreateNewRectDraw(_nick)
+function editorCreateNewRectDraw(_nick, _copy)
     project.drawNicks[#project.drawNicks + 1] = _nick
-    project.draws[_nick] = {
-        type = 'rect',
-        nick =_nick,
-        x = 0.5,
-        y = 0.5,
-        width = 0.2,
-        height = 0.2,
-        r = 255, g = 255, b = 255, a = 255
-    }
+    if _copy ~= nil then
+        project.draws[_nick] = {
+            type = 'rect',
+            nick =_nick,
+            x = project.draws[_copy].x,
+            y = project.draws[_copy].y,
+            width = project.draws[_copy].width,
+            height = project.draws[_copy].height,
+            r = project.draws[_copy].r, g = project.draws[_copy].g, b = project.draws[_copy].b, a = project.draws[_copy].a
+        }
+    else
+        project.draws[_nick] = {
+            type = 'rect',
+            nick =_nick,
+            x = 0.5,
+            y = 0.5,
+            width = 0.2,
+            height = 0.2,
+            r = 255, g = 255, b = 255, a = 255
+        }
+    end
 end
 
 function alert(text)
