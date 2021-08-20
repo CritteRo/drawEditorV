@@ -161,15 +161,19 @@ function drawText(_data, _overrideAlpha)
     SetTextScale(0.0, _data.scale)
     if _overrideAlpha ~= nil then
         SetTextColour(_data.colour.r, _data.colour.g, _data.colour.b, _overrideAlpha)
-        SetTextDropshadow(_data.dropShadow.dist, _data.dropShadow.r, _data.dropShadow.g, _data.dropShadow.b, _overrideAlpha)
+        --SetTextDropshadow(_data.dropShadow.dist, _data.dropShadow.r, _data.dropShadow.g, _data.dropShadow.b, _overrideAlpha)
         SetTextEdge(_data.edge.dist, _data.edge.r, _data.edge.g, _data.edge.b, _overrideAlpha)
     else
         SetTextColour(_data.colour.r, _data.colour.g, _data.colour.b, _data.colour.a)
-        SetTextDropshadow(_data.dropShadow.dist, _data.dropShadow.r, _data.dropShadow.g, _data.dropShadow.b, _data.dropShadow.a)
+        --SetTextDropshadow(_data.dropShadow.dist, _data.dropShadow.r, _data.dropShadow.g, _data.dropShadow.b, _data.dropShadow.a)
         SetTextEdge(_data.edge.dist, _data.edge.r, _data.edge.g, _data.edge.b, _data.edge.a)
     end
-    SetTextDropShadow()
-    SetTextOutline()
+    if _data.outline then
+        SetTextOutline()
+    end
+    if _data.dropShadow2 then
+        SetTextDropShadow()
+    end
     SetTextJustification(_data.justification)
     SetTextWrap(_data.warp.left, _data.warp.right)
     SetTextEntry("STRING")
@@ -179,7 +183,7 @@ end
 
 function drawTextHelper(string, x, y)
     SetTextFont(0)
-    SetTextProportional(1)
+    SetTextProportional(2)
     SetTextScale(0.0, 0.5)
     SetTextColour(255, 255, 255, 255)
     SetTextDropshadow(1, 0, 0, 0, 255)

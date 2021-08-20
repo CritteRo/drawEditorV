@@ -13,7 +13,15 @@ AddEventHandler('drawEditorV:ExportProject', function(project)
                 Citizen.Wait(10)
                 io.write("SetTextColour("..k.colour.r..", "..k.colour.g..", "..k.colour.b..", "..k.colour.a..")\nSetTextDropshadow("..k.dropShadow.dist..", "..k.dropShadow.r..","..k.dropShadow.g..", "..k.dropShadow.b..", "..k.dropShadow.a..")\n")
                 Citizen.Wait(10)
-                io.write("SetTextEdge("..k.edge.dist..", "..k.edge.r..","..k.edge.g..", "..k.edge.b..", "..k.edge.a..")\nSetTextDropShadow()\nSetTextOutline()\nSetTextJustification("..k.justification..")\nSetTextWrap("..k.warp.left..", "..k.warp.right..")\n")
+                io.write("SetTextEdge("..k.edge.dist..", "..k.edge.r..","..k.edge.g..", "..k.edge.b..", "..k.edge.a..")\nSetTextJustification("..k.justification..")\nSetTextWrap("..k.warp.left..", "..k.warp.right..")\n")
+                if k.outline then
+                    Citizen.Wait(10)
+                    io.write("SetTextOutline()\n")
+                end
+                if k.dropShadow2 then
+                    Citizen.Wait(10)
+                    io.write("SetTextDropShadow()\n")
+                end
                 Citizen.Wait(10)
                 io.write("SetTextEntry('STRING')\nAddTextComponentString('"..k.string.."')\nDrawText("..k.xCoord..", "..k.yCoord..")\n--[[  :: END OF "..k.nick.." ::  ]]--\r\n")
             elseif k.type == 'rect' then

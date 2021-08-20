@@ -2,8 +2,10 @@ menuStyle = {titleColor = {255, 255, 255}, subTitleColor = {255, 255, 255}, --[[
 
 
 justifyItems = {"Center", "Left", "Right"}
+justifyItems2 = {"0", "1", "2"}
 
 _comboBoxIndex = 1
+_comboBoxIndex2 = 1
 WarMenu.CreateMenu('editor.ProjectMenu.main', 'drawEditorV', 'Select a project', menuStyle)
 
 WarMenu.CreateMenu('editor.DrawsMenu.main', 'drawEditorV', 'Main Menu')
@@ -161,7 +163,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 WarMenu.CloseMenu()
             end
             WarMenu.End()
-        elseif WarMenu.Begin('editor.DrawsMenu.text') then
+        elseif WarMenu.Begin('editor.DrawsMenu.text') then ---------------------------------------------------------------------------------------
             WarMenu.Button('Change Coords (Mouse)')
             if WarMenu.IsItemSelected() then
                 editorView = 'changePos'
@@ -196,16 +198,15 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 _comboBoxIndex = comboBoxIndex
                 editedDraw.justification = _comboBoxIndex - 1
             end
-            if WarMenu.IsItemSelected() then
-                AddTextEntry('EDI_NEW_TXT', "Set String:")
-                DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.string, "", "", "", 50)
-                while (UpdateOnscreenKeyboard() == 0) do
-                    DisableAllControlActions(0);
-                    Wait(0);
-                end
-                if (GetOnscreenKeyboardResult()) then
-                    editedDraw.string = GetOnscreenKeyboardResult()
-                end
+
+            if WarMenu.CheckBox('Outline?', editedDraw.outline) then
+                _checked = not _checked
+                editedDraw.outline = _checked
+            end
+
+            if WarMenu.CheckBox('Drop Shadow?', editedDraw.dropShadow2) then
+                _checked = not _checked
+                editedDraw.dropShadow2 = _checked
             end
 
             WarMenu.Button('Change Colour & Alpha')
