@@ -9,6 +9,7 @@ _comboBoxIndex2 = 1
 WarMenu.CreateMenu('editor.ProjectMenu.main', 'drawEditorV', 'Select a project', menuStyle)
 
 WarMenu.CreateMenu('editor.DrawsMenu.main', 'drawEditorV', 'Main Menu')
+WarMenu.CreateSubMenu('editor.DrawsMenu.newElement', 'editor.DrawsMenu.main', 'New Element')
 WarMenu.CreateSubMenu('editor.DrawsMenu.text', 'editor.DrawsMenu.main', 'Edit Text')
 WarMenu.CreateSubMenu('editor.DrawsMenu.rect', 'editor.DrawsMenu.main', 'Edit Rect')
 
@@ -70,6 +71,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
 
     while true do
         if WarMenu.Begin('editor.DrawsMenu.main') then
+            WarMenu.MenuButton('Create new element:', 'editor.DrawsMenu.newElement')
             for i,k in pairs(project.drawNicks) do
                 WarMenu.Button('Edit "~y~'..k..'~s~" '..project.draws[k].type)
                 if WarMenu.IsItemSelected() then
@@ -82,6 +84,20 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     WarMenu.OpenMenu('editor.DrawsMenu.'..project.draws[k].type)
                 end
             end
+            WarMenu.Button('~g~Export Project.~s~')
+            if WarMenu.IsItemSelected() then
+                --notify("can't do that now.", 6)
+                TriggerServerEvent('drawEditorV:ExportProject', project)
+                view = "project"
+                WarMenu.CloseMenu()
+            end
+            WarMenu.Button('~r~Exit Project.~s~')
+            if WarMenu.IsItemSelected() then
+                view = "project"
+                WarMenu.CloseMenu()
+            end
+            WarMenu.End()
+        elseif WarMenu.Begin('editor.DrawsMenu.newElement') then
             WarMenu.Button('Create new text draw')
             if WarMenu.IsItemSelected() then
                 AddTextEntry('EDI_NEW_TXT', "Text nickname (NOT TEXT STRING / Will also be the function name): ")
@@ -149,18 +165,6 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     end
                     --WarMenu.CloseMenu()
                 end
-            end
-            WarMenu.Button('~g~Export Project.~s~')
-            if WarMenu.IsItemSelected() then
-                --notify("can't do that now.", 6)
-                TriggerServerEvent('drawEditorV:ExportProject', project)
-                view = "project"
-                WarMenu.CloseMenu()
-            end
-            WarMenu.Button('~r~Exit Project.~s~')
-            if WarMenu.IsItemSelected() then
-                view = "project"
-                WarMenu.CloseMenu()
             end
             WarMenu.End()
         elseif WarMenu.Begin('editor.DrawsMenu.text') then ---------------------------------------------------------------------------------------
