@@ -27,7 +27,7 @@ AddEventHandler('drawEditorV:ExportProject', function(project)
             elseif k.type == 'rect' then
                 io.write("--[[  :: "..k.nick.." ::  ]]--\nDrawRect("..k.x..", "..k.y..", "..k.width..", "..k.height..", "..k.r..", "..k.g..", "..k.b..", "..k.a..")\n--[[  :: END OF "..k.nick.." ::  ]]--\r\n")
             elseif k.type == 'img' then
-                io.write("--[[  :: "..k.nick.." ::  ]]--\nDrawSprite("..k.txd..", "..k.txn..", "..k.x..", "..k.y..", "..k.width..", "..k.height..", "..k.heading..", "..k.r..", "..k.g..", "..k.b..", "..k.a..")\n--[[  :: END OF "..k.nick.." ::  ]]--\r\n")
+                io.write("--[[  :: "..k.nick.." ::  ]]--\nDrawSprite('"..k.txd.."', '"..k.txn.."', "..k.x..", "..k.y..", "..k.width..", "..k.height..", "..k.heading..", "..k.r..", "..k.g..", "..k.b..", "..k.a..")\n--[[  :: END OF "..k.nick.." ::  ]]--\r\n")
             end
         end
         io.write('--[[ TEXT DRAWS BUILT USING drawEditorV for FiveM. Resource created by CritteR ]]--')
