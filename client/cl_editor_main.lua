@@ -87,8 +87,9 @@ Citizen.CreateThread(function()
                     drawText(k)
                 elseif k.type == 'rect' then
                     DrawRect(k.x, k.y, k.width, k.height, k.r, k.g, k.b, k.a)
+                elseif k.type == 'img' then
+                    DrawSprite(k.txd, k.txn, k.x, k.y, k.width, k.height, k.heading, k.r, k.g, k.b, k.a)
                 end
-                
             end
         elseif view == 'drawEditor' then
             if not WarMenu.IsAnyMenuOpened() then
@@ -102,12 +103,16 @@ Citizen.CreateThread(function()
                         drawText(k, 80)
                     elseif k.type == 'rect' then
                         DrawRect(k.x, k.y, k.width, k.height, k.r, k.g, k.b, 80)
+                    elseif k.type == 'img' then
+                        DrawSprite(k.txd, k.txn, k.x, k.y, k.width, k.height, k.heading, k.r, k.g, k.b, 80)
                     end
                 else
                     if k.type == 'text' then
                         drawText(editedDraw)
                     elseif k.type == 'rect' then
-                        DrawRect(k.x, k.y, k.width, k.height, k.r, k.g, k.b, k.a)
+                        DrawRect(editedDraw.x, editedDraw.y, editedDraw.width, editedDraw.height, editedDraw.r, editedDraw.g, editedDraw.b, editedDraw.a)
+                    elseif k.type == 'img' then
+                        DrawSprite(editedDraw.txd, editedDraw.txn, editedDraw.x, editedDraw.y, editedDraw.width, editedDraw.height, editedDraw.heading, editedDraw.r, editedDraw.g, editedDraw.b, editedDraw.a)
                     end
                 end
             end
@@ -116,6 +121,8 @@ Citizen.CreateThread(function()
                     if editedDraw.type == 'text' then
                         editedDraw.xCoord, editedDraw.yCoord = GetCursorPosition()
                     elseif editedDraw.type == 'rect' then
+                        editedDraw.x, editedDraw.y = GetCursorPosition()
+                    elseif editedDraw.type == 'img' then
                         editedDraw.x, editedDraw.y = GetCursorPosition()
                     end
                 end
@@ -128,6 +135,10 @@ Citizen.CreateThread(function()
                         editedDraw.scale = editedDraw.scale - 0.05
                     end
                 elseif editedDraw.type == 'rect' then
+                    if IsControlPressed(0,  24) then
+                        editedDraw.width, editedDraw.height = GetCursorPosition()
+                    end
+                elseif editedDraw.type == 'img' then
                     if IsControlPressed(0,  24) then
                         editedDraw.width, editedDraw.height = GetCursorPosition()
                     end

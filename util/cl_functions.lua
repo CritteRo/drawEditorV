@@ -89,6 +89,37 @@ function editorCreateNewRectDraw(_nick, _copy)
     end
 end
 
+function editorCreateNewImgDraw(_nick, _copy)
+    project.drawNicks[#project.drawNicks + 1] = _nick
+    if _copy ~= nil then
+        project.draws[_nick] = {
+            type = 'img',
+            nick =_nick,
+            txd = project.draws[_copy].txd,
+            txn = project.draws[_copy].txn,
+            x = project.draws[_copy].x,
+            y = project.draws[_copy].y,
+            width = project.draws[_copy].width,
+            height = project.draws[_copy].height,
+            heading = project.draws[_copy].heading,
+            r = project.draws[_copy].r, g = project.draws[_copy].g, b = project.draws[_copy].b, a = project.draws[_copy].a
+        }
+    else
+        project.draws[_nick] = {
+            type = 'img',
+            nick =_nick,
+            txd = "textureDirectory",
+            txn = "textureName",
+            x = 0.5,
+            y = 0.5,
+            width = 0.2,
+            height = 0.2,
+            heading = 0.0,
+            r = 255, g = 255, b = 255, a = 255
+        }
+    end
+end
+
 function alert(text)
     SetTextComponentFormat("STRING")
     AddTextComponentString(text)
