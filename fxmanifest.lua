@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 
 author 'CritteR & YOU(if you PR this)'
-description 'drawEditorV helps you easily create, modify and export to lua text and other drawables.'
+description 'drawEditorV helps you easily create, modify and export to lua text and other drawables. Menu framework by Warxander'
 
 client_scripts {
     'util/warmenu.lua',
