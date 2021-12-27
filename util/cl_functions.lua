@@ -139,7 +139,7 @@ AddEventHandler('drawEditorV:ShowBusySpinner', function(type, toggle, string, co
     if type == "save" then
         if toggle == 1 then
             BeginTextCommandBusyspinnerOn("STRING")
-            AddTextComponentSubstringPlayerName("Saving "..string..".")
+            AddTextComponentSubstringPlayerName(string)
             EndTextCommandBusyspinnerOn(1)
         elseif toggle == 0 then
             BusyspinnerOff()

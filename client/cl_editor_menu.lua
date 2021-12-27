@@ -1,4 +1,5 @@
-menuStyle = {titleColor = {255, 255, 255}, subTitleColor = {255, 255, 255}, --[[titleBackgroundSprite = {dict = 'commonmenu', name = 'interaction_bgd'}]]}
+coreMenuStyle = {titleColor = {255, 255, 255}, subTitleColor = {255, 255, 255}, titleBackgroundSprite = {dict = 'commonmenu', name = 'interaction_bgd'}}
+RequestStreamedTextureDict('commonmenu', true)
 
 
 justifyItems = {"Center", "Left", "Right"}
@@ -6,13 +7,13 @@ justifyItems2 = {"0", "1", "2"}
 
 _comboBoxIndex = 1
 _comboBoxIndex2 = 1
-WarMenu.CreateMenu('editor.ProjectMenu.main', 'drawEditorV', 'Select a project', menuStyle)
+WarMenu.CreateMenu('editor.ProjectMenu.main', 'drawEditorV', 'Select a project', coreMenuStyle)
 
-WarMenu.CreateMenu('editor.DrawsMenu.main', 'drawEditorV', 'Main Menu')
-WarMenu.CreateSubMenu('editor.DrawsMenu.newElement', 'editor.DrawsMenu.main', 'New Element')
-WarMenu.CreateSubMenu('editor.DrawsMenu.text', 'editor.DrawsMenu.main', 'Edit Text')
-WarMenu.CreateSubMenu('editor.DrawsMenu.rect', 'editor.DrawsMenu.main', 'Edit Rect')
-WarMenu.CreateSubMenu('editor.DrawsMenu.img', 'editor.DrawsMenu.main', 'Edit Texture')
+WarMenu.CreateMenu('editor.DrawsMenu.main', 'drawEditorV', 'Main Menu', coreMenuStyle)
+WarMenu.CreateSubMenu('editor.DrawsMenu.newElement', 'editor.DrawsMenu.main', 'New Element', coreMenuStyle)
+WarMenu.CreateSubMenu('editor.DrawsMenu.text', 'editor.DrawsMenu.main', 'Edit Text', coreMenuStyle)
+WarMenu.CreateSubMenu('editor.DrawsMenu.rect', 'editor.DrawsMenu.main', 'Edit Rect', coreMenuStyle)
+WarMenu.CreateSubMenu('editor.DrawsMenu.img', 'editor.DrawsMenu.main', 'Edit Texture', coreMenuStyle)
 
 AddEventHandler('drawEditorV:OpenProjectMenu', function()
     if not WarMenu.IsAnyMenuOpened() and view == 'project' then
@@ -23,7 +24,7 @@ AddEventHandler('drawEditorV:OpenProjectMenu', function()
     while true do
         if WarMenu.Begin('editor.ProjectMenu.main') then
             if project.name ~= 'unk' then
-                WarMenu.Button('Continue Existing Project')
+                WarMenu.Button('Continue "'..project.name..'" Project')
                 if WarMenu.IsItemSelected() then
                     view = 'draws'
                     clearInstructionalButtons()
@@ -53,6 +54,27 @@ AddEventHandler('drawEditorV:OpenProjectMenu', function()
                     end
                 end
             end
+
+            WarMenu.Button('Load Existing Project')
+            if WarMenu.IsItemHovered() then
+                WarMenu.ToolTip('Make sure the project file name is correct, and first line is intact! File extension is also needed!')
+            end
+            if WarMenu.IsItemSelected() then
+                AddTextEntry('EDI_NEW_PRJ', "Project filename (including file extension, CaSe SeNsItIvE)")
+                DisplayOnscreenKeyboard(1, "EDI_NEW_PRJ", "", "", "", "", "", 50)
+                while (UpdateOnscreenKeyboard() == 0) do
+                    DisableAllControlActions(0);
+                    Wait(0);
+                end
+                if (GetOnscreenKeyboardResult()) then
+                    if GetOnscreenKeyboardResult() ~= "" then
+                        result = GetOnscreenKeyboardResult()
+                        TriggerServerEvent('drawEditorV:LoadProject', result)
+                    else
+                        notify('Please specify the name.', 6)
+                    end
+                end
+            end
             WarMenu.End()
         else
             return
@@ -64,6 +86,7 @@ end)
 AddEventHandler('drawEditorV:OpenDrawsMenu', function()
     if not WarMenu.IsAnyMenuOpened() and view == 'draws' then
         WarMenu.SetMenuTitle('editor.DrawsMenu.main', project.name)
+        WarMenu.SetMenuTitle('editor.DrawsMenu.newElement', project.name)
         WarMenu.OpenMenu('editor.DrawsMenu.main')
     elseif not WarMenu.IsAnyMenuOpened() and view == 'drawEditor' then
         WarMenu.SetMenuTitle('editor.DrawsMenu.textEditor', project.draws[currentDraw].nick)
@@ -83,12 +106,13 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     setInstructionalButtons(instButtonText[view])
                     WarMenu.CloseMenu()
                     WarMenu.OpenMenu('editor.DrawsMenu.'..project.draws[k].type)
+                    WarMenu.SetMenuTitle('editor.DrawsMenu.'..project.draws[k].type, 'Editing "'..k..'"')
                 end
             end
             WarMenu.Button('~g~Export Project.~s~')
             if WarMenu.IsItemSelected() then
                 --notify("can't do that now.", 6)
-                TriggerServerEvent('drawEditorV:ExportProject', project)
+                TriggerServerEvent('drawEditorV:ExportProject', project, json.encode(project))
                 view = "project"
                 WarMenu.CloseMenu()
             end
@@ -131,6 +155,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                         editorCreateNewTextDraw(GetOnscreenKeyboardResult())
                     end
                     --WarMenu.CloseMenu()
+                    WarMenu.OpenMenu('editor.DrawsMenu.main')
                 end
             end
             WarMenu.Button('Create new rect draw')
@@ -165,6 +190,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                         editorCreateNewRectDraw(result)
                     end
                     --WarMenu.CloseMenu()
+                    WarMenu.OpenMenu('editor.DrawsMenu.main')
                 end
             end
             WarMenu.Button('Create new texture draw')
@@ -199,6 +225,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                         editorCreateNewImgDraw(result)
                     end
                     --WarMenu.CloseMenu()
+                    WarMenu.OpenMenu('editor.DrawsMenu.main')
                 end
             end
             WarMenu.End()

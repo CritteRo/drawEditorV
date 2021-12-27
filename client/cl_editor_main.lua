@@ -60,10 +60,11 @@ Citizen.CreateThread(function()
     SetNuiFocus(true,true)
 
     while true do
+
         if not WarMenu.IsAnyMenuOpened() then
             DrawScaleformMovieFullscreen(buttonScaleformId, 255, 255, 255, 255)
 
-            if IsControlJustReleased(0,  23) then  -- F
+            if IsControlJustReleased(0,  23) or IsDisabledControlJustReleased(0,  23) then  -- F
                 if view == 'project' then
                     clearInstructionalButtons()
                     setInstructionalButtons(instButtonText[view])
@@ -117,7 +118,10 @@ Citizen.CreateThread(function()
                 end
             end
             if editorView == "changePos" then
-                if IsControlPressed(0,  24) then  -- click
+                DisableAllControlActions(0)
+                EnableControlAction(0,239, true)
+                EnableControlAction(0,240, true)
+                if IsControlPressed(0,  24) or IsDisabledControlPressed(0,  24) then  -- click
                     if editedDraw.type == 'text' then
                         editedDraw.xCoord, editedDraw.yCoord = GetCursorPosition()
                     elseif editedDraw.type == 'rect' then
@@ -127,33 +131,42 @@ Citizen.CreateThread(function()
                     end
                 end
             elseif editorView == "changeSize" then
+                DisableAllControlActions(0)
+                EnableControlAction(0,239, true)
+                EnableControlAction(0,240, true)
                 if editedDraw.type == 'text' then
                     editedX, editedY = GetCursorPosition()
-                    if IsControlJustPressed(0,  96) then  -- up
+                    if IsControlJustPressed(0,  96) or IsDisabledControlPressed(0,  96) then  -- up
                         editedDraw.scale = editedDraw.scale + 0.05
-                    elseif IsControlJustPressed(0,  97) then  -- down
+                    elseif IsControlJustPressed(0,  97) or IsDisabledControlPressed(0,  97) then  -- down
                         editedDraw.scale = editedDraw.scale - 0.05
                     end
                 elseif editedDraw.type == 'rect' then
-                    if IsControlPressed(0,  24) then
+                    if IsControlPressed(0,  24) or IsDisabledControlPressed(0,  24) then
                         editedDraw.width, editedDraw.height = GetCursorPosition()
                     end
                 elseif editedDraw.type == 'img' then
-                    if IsControlPressed(0,  24) then
+                    if IsControlPressed(0,  24) or IsDisabledControlPressed(0, 24) then
                         editedDraw.width, editedDraw.height = GetCursorPosition()
                     end
                 end
             elseif editorView == "changeWarpRight" then
+                DisableAllControlActions(0)
+                EnableControlAction(0,239, true)
+                EnableControlAction(0,240, true)
                 if editedDraw.type == 'text' then
-                    if IsControlPressed(0,  24) then
+                    if IsControlPressed(0,  24) or IsDisabledControlPressed(0,  24) then
                         editedDraw.warp.right, retval = GetCursorPosition()
                     end
                     DrawRect(editedDraw.warp.right, 0.5, 0.01, 1.01, 255, 0, 0, 150)
                     DrawRect(editedDraw.warp.left, 0.5, 0.01, 1.01, 255, 0, 0, 80)
                 end
             elseif editorView == "changeWarpLeft" then
+                DisableAllControlActions(0)
+                EnableControlAction(0,239, true)
+                EnableControlAction(0,240, true)
                 if editedDraw.type == 'text' then
-                    if IsControlPressed(0,  24) then
+                    if IsControlPressed(0,  24) or IsDisabledControlPressed(0,  24) then
                         editedDraw.warp.left, retval = GetCursorPosition()
                     end
                     
@@ -207,3 +220,9 @@ function drawTextHelper(string, x, y)
     AddTextComponentString(string)
     DrawText(x, y)
 end
+
+RegisterNetEvent('drawEditorV:LoadProject')
+AddEventHandler('drawEditorV:LoadProject', function(prjct)
+    project = json.decode(prjct)
+    notify(project.name.." loaded!", 116)
+end)

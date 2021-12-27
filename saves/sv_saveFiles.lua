@@ -1,12 +1,12 @@
 RegisterNetEvent('drawEditorV:ExportProject')
-
-AddEventHandler('drawEditorV:ExportProject', function(project)
+AddEventHandler('drawEditorV:ExportProject', function(project, json)
     local src = source
-    local json = json.encode(project)
-    TriggerClientEvent('drawEditorV:ShowBusySpinner', src, 'save', 1, '~y~drawEditorV_export_'..project.name..'.lua~s~')
-    file=io.open("drawEditorV\\drawEditorV_export_"..project.name..".lua", "w+")
+    --local json = json.encode(project)
+    TriggerClientEvent('drawEditorV:ShowBusySpinner', src, 'save', 1, 'Saving ~y~drawEditorV_export_'..project.name..'.lua~s~...')
+    local file=io.open("drawEditorV\\drawEditorV_export_"..project.name..".lua", "w+")
     io.output(file)
     if file ~= nil then
+        io.write(json.."\n--[[ DO NOT REMOVE THE ABOVE LINE. IT'S USED TO LOAD THE PROJECT LATER ]]--\n")
         for i,k in pairs(project.draws) do
             if k.type == 'text' then
                 io.write("--[[  :: "..k.nick.." ::  ]]--\nSetTextFont("..k.font..")\nSetTextProportional(1)\nSetTextScale(0.0, "..k.scale..")\n")
@@ -32,16 +32,35 @@ AddEventHandler('drawEditorV:ExportProject', function(project)
         end
         io.write('--[[ TEXT DRAWS BUILT USING drawEditorV for FiveM. Resource created by CritteR ]]--')
         TriggerClientEvent('drawEditorV:ShowBusySpinner', src, 'save', 0, 'Export finished!', 116)
+        io.close(file)
     else
         print(' EXPORTING A FILE TO \\drawEditorV\\filename.lua !!!')
         print(' YOU SHOULD GO TO THE FOLDER WHERE YOUR SERVER START IS LOCATED, AND OPEN drawEditorV TO OPEN THE FILE!')
         print(' IF YOU DON\'T SEE A drawEditorV FOLDER, YOU MUST CREATE IT YOURSELF IN ORDER TO SAVE FILES!!!')
-        TriggerClientEvent('drawEditorV:ShowBusySpinner', src, 'save', 0, 'Export failed! Check console!', 6)
+        TriggerClientEvent('drawEditorV:ShowBusySpinner', src, 'save', 0, 'Export failed! Check server console!', 6)
     end
-    io.close()
 end)
 
-AddEventHandler('drawEditorV:')
+RegisterNetEvent('drawEditorV:LoadProject')
+AddEventHandler('drawEditorV:LoadProject', function(name)
+    local src = source
+    TriggerClientEvent('drawEditorV:ShowBusySpinner', src, 'save', 1, 'Loading ~y~'..name..'~s~...')
+    local file=io.open("drawEditorV\\"..name, "r")
+    io.input(file)
+    if file ~= nil then
+        json = tostring(io.read())
+        --json2 = json.decode(tostring(io.read()))
+        TriggerClientEvent('drawEditorV:LoadProject', src, json)
+        TriggerClientEvent('drawEditorV:ShowBusySpinner', src, 'save', 0, 'Loading finished!', 116)
+        io.close(file)
+    else
+        print(' FAILED LOADING FILE IN "\\drawEditorV\\'..name..'" !!!')
+        print(' YOU SHOULD GO TO THE FOLDER WHERE YOUR SERVER START IS LOCATED, AND OPEN drawEditorV FOLDER TO CHECK THE FILE NAME!')
+        print(' FILE NAME NEEDS TO BE EXACT AND CaSe SeNsItIvE!')
+        print(' IF YOU DON\'T SEE A drawEditorV FOLDER, YOU MUST CREATE IT YOURSELF IN ORDER TO SAVE FILES!!!')
+        TriggerClientEvent('drawEditorV:ShowBusySpinner', src, 'save', 0, 'Loading failed! Check server console!', 6)
+    end
+end)
 
 --[[
 function drawText(_data, _overrideAlpha)
