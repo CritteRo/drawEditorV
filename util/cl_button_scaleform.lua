@@ -59,9 +59,9 @@ instButtonText = {
         {input = "~INPUT_VEH_CINEMATIC_UP_ONLY~", text = "Change Size"},
         {input = "~INPUT_VEH_CINEMATIC_DOWN_ONLY~", text = "Change Size"},
     },
-    ['changeWarp'] = {
+    ['changeWrap'] = {
         {input = "~INPUT_ENTER~", text = "Open Editor Menu"},
-        {input = "~INPUT_ATTACK~", text = "Edit Warp"},
+        {input = "~INPUT_ATTACK~", text = "Edit Wrap"},
     },
 }
 

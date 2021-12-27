@@ -315,19 +315,19 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 end
             end
 
-            WarMenu.Button('Change Right Coord Warp')
+            WarMenu.Button('Change Right Coord Wrap')
             if WarMenu.IsItemSelected() then
-                editorView = 'changeWarpRight'
+                editorView = 'changeWrapRight'
                 clearInstructionalButtons()
                 setInstructionalButtons(instButtonText['changeSize'])
                 WarMenu.CloseMenu()
             end
 
-            WarMenu.Button('Change Left Coord Warp')
+            WarMenu.Button('Change Left Coord Wrap')
             if WarMenu.IsItemSelected() then
-                editorView = 'changeWarpLeft'
+                editorView = 'changeWrapLeft'
                 clearInstructionalButtons()
-                setInstructionalButtons(instButtonText['changeWarp'])
+                setInstructionalButtons(instButtonText['changeWrap'])
                 WarMenu.CloseMenu()
             end
 

@@ -25,7 +25,7 @@ project = {
             edge = {dist = 1, r = 0, g = 0, b = 0, a = 255},
             outline = true,
             justification = 2,
-            warp = {left = 0.01, right = 0.97},
+            wrap = {left = 0.01, right = 0.97},
             string = "Drawable Text",
             xCoord = 0.85,
             yCoord = 0.08,
@@ -150,28 +150,28 @@ Citizen.CreateThread(function()
                         editedDraw.width, editedDraw.height = GetCursorPosition()
                     end
                 end
-            elseif editorView == "changeWarpRight" then
+            elseif editorView == "changeWrapRight" then
                 DisableAllControlActions(0)
                 EnableControlAction(0,239, true)
                 EnableControlAction(0,240, true)
                 if editedDraw.type == 'text' then
                     if IsControlPressed(0,  24) or IsDisabledControlPressed(0,  24) then
-                        editedDraw.warp.right, retval = GetCursorPosition()
+                        editedDraw.wrap.right, retval = GetCursorPosition()
                     end
-                    DrawRect(editedDraw.warp.right, 0.5, 0.01, 1.01, 255, 0, 0, 150)
-                    DrawRect(editedDraw.warp.left, 0.5, 0.01, 1.01, 255, 0, 0, 80)
+                    DrawRect(editedDraw.wrap.right, 0.5, 0.01, 1.01, 255, 0, 0, 150)
+                    DrawRect(editedDraw.wrap.left, 0.5, 0.01, 1.01, 255, 0, 0, 80)
                 end
-            elseif editorView == "changeWarpLeft" then
+            elseif editorView == "changeWrapLeft" then
                 DisableAllControlActions(0)
                 EnableControlAction(0,239, true)
                 EnableControlAction(0,240, true)
                 if editedDraw.type == 'text' then
                     if IsControlPressed(0,  24) or IsDisabledControlPressed(0,  24) then
-                        editedDraw.warp.left, retval = GetCursorPosition()
+                        editedDraw.wrap.left, retval = GetCursorPosition()
                     end
                     
-                    DrawRect(editedDraw.warp.right, 0.5, 0.01, 1.01, 255, 0, 0, 80)
-                    DrawRect(editedDraw.warp.left, 0.5, 0.01, 1.01, 255, 0, 0, 150)
+                    DrawRect(editedDraw.wrap.right, 0.5, 0.01, 1.01, 255, 0, 0, 80)
+                    DrawRect(editedDraw.wrap.left, 0.5, 0.01, 1.01, 255, 0, 0, 150)
                 end
             end
         end
@@ -199,7 +199,7 @@ function drawText(_data, _overrideAlpha)
         SetTextDropShadow()
     end
     SetTextJustification(_data.justification)
-    SetTextWrap(_data.warp.left, _data.warp.right)
+    SetTextWrap(_data.wrap.left, _data.wrap.right)
     SetTextEntry("STRING")
     AddTextComponentString(_data.string)
     DrawText(_data.xCoord, _data.yCoord)
