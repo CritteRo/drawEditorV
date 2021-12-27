@@ -3,7 +3,7 @@ RequestStreamedTextureDict('commonmenu', true)
 
 
 justifyItems = {"Center", "Left", "Right"}
-justifyItems2 = {"0", "1", "2"}
+-- justifyItems2 = {"0", "1", "2"} -- Unused
 
 WarMenu.CreateMenu('editor.ProjectMenu.main', 'drawEditorV', 'Select a project', coreMenuStyle)
 
@@ -257,10 +257,9 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 end
             end
 
-            local _, comboBoxIndex = WarMenu.ComboBox('Change Justification', justifyItems, _comboBoxIndex)
-            if _comboBoxIndex ~= comboBoxIndex then
-                _comboBoxIndex = comboBoxIndex
-                editedDraw.justification = _comboBoxIndex - 1
+            local _, comboBoxIndex = WarMenu.ComboBox('Change Justification', justifyItems, editedDraw.justification + 1)
+            if editedDraw.justification ~= (comboBoxIndex - 1) then
+                editedDraw.justification = comboBoxIndex - 1
             end
 
             if WarMenu.CheckBox('Outline?', editedDraw.outline) then
