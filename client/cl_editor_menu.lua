@@ -5,8 +5,6 @@ RequestStreamedTextureDict('commonmenu', true)
 justifyItems = {"Center", "Left", "Right"}
 justifyItems2 = {"0", "1", "2"}
 
-_comboBoxIndex = 1
-_comboBoxIndex2 = 1
 WarMenu.CreateMenu('editor.ProjectMenu.main', 'drawEditorV', 'Select a project', coreMenuStyle)
 
 WarMenu.CreateMenu('editor.DrawsMenu.main', 'drawEditorV', 'Main Menu', coreMenuStyle)
@@ -266,13 +264,11 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
             end
 
             if WarMenu.CheckBox('Outline?', editedDraw.outline) then
-                _checked = not _checked
-                editedDraw.outline = _checked
+                editedDraw.outline = not editedDraw.outline
             end
 
             if WarMenu.CheckBox('Drop Shadow?', editedDraw.dropShadow2) then
-                _checked = not _checked
-                editedDraw.dropShadow2 = _checked
+                editedDraw.dropShadow2 = not editedDraw.dropShadow2
             end
 
             WarMenu.Button('Change Colour & Alpha')
