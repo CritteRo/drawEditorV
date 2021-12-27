@@ -3,10 +3,8 @@ RequestStreamedTextureDict('commonmenu', true)
 
 
 justifyItems = {"Center", "Left", "Right"}
-justifyItems2 = {"0", "1", "2"}
+-- justifyItems2 = {"0", "1", "2"} -- Unused
 
-_comboBoxIndex = 1
-_comboBoxIndex2 = 1
 WarMenu.CreateMenu('editor.ProjectMenu.main', 'drawEditorV', 'Select a project', coreMenuStyle)
 
 WarMenu.CreateMenu('editor.DrawsMenu.main', 'drawEditorV', 'Main Menu', coreMenuStyle)
@@ -259,20 +257,17 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 end
             end
 
-            local _, comboBoxIndex = WarMenu.ComboBox('Change Justification', justifyItems, _comboBoxIndex)
-            if _comboBoxIndex ~= comboBoxIndex then
-                _comboBoxIndex = comboBoxIndex
-                editedDraw.justification = _comboBoxIndex - 1
+            local _, comboBoxIndex = WarMenu.ComboBox('Change Justification', justifyItems, editedDraw.justification + 1)
+            if editedDraw.justification ~= (comboBoxIndex - 1) then
+                editedDraw.justification = comboBoxIndex - 1
             end
 
             if WarMenu.CheckBox('Outline?', editedDraw.outline) then
-                _checked = not _checked
-                editedDraw.outline = _checked
+                editedDraw.outline = not editedDraw.outline
             end
 
             if WarMenu.CheckBox('Drop Shadow?', editedDraw.dropShadow2) then
-                _checked = not _checked
-                editedDraw.dropShadow2 = _checked
+                editedDraw.dropShadow2 = not editedDraw.dropShadow2
             end
 
             WarMenu.Button('Change Colour & Alpha')
@@ -315,19 +310,19 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 end
             end
 
-            WarMenu.Button('Change Right Coord Warp')
+            WarMenu.Button('Change Right Coord Wrap')
             if WarMenu.IsItemSelected() then
-                editorView = 'changeWarpRight'
+                editorView = 'changeWrapRight'
                 clearInstructionalButtons()
-                setInstructionalButtons(instButtonText['changeSize'])
+                setInstructionalButtons(instButtonText['changeWrap'])
                 WarMenu.CloseMenu()
             end
 
-            WarMenu.Button('Change Left Coord Warp')
+            WarMenu.Button('Change Left Coord Wrap')
             if WarMenu.IsItemSelected() then
-                editorView = 'changeWarpLeft'
+                editorView = 'changeWrapLeft'
                 clearInstructionalButtons()
-                setInstructionalButtons(instButtonText['changeWarp'])
+                setInstructionalButtons(instButtonText['changeWrap'])
                 WarMenu.CloseMenu()
             end
 
