@@ -319,7 +319,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
             if WarMenu.IsItemSelected() then
                 editorView = 'changeWrapRight'
                 clearInstructionalButtons()
-                setInstructionalButtons(instButtonText['changeSize'])
+                setInstructionalButtons(instButtonText['changeWrap'])
                 WarMenu.CloseMenu()
             end
 
