@@ -12,6 +12,7 @@ WarMenu.CreateSubMenu('editor.DrawsMenu.newElement', 'editor.DrawsMenu.main', 'N
 WarMenu.CreateSubMenu('editor.DrawsMenu.text', 'editor.DrawsMenu.main', 'Edit Text', coreMenuStyle)
 WarMenu.CreateSubMenu('editor.DrawsMenu.rect', 'editor.DrawsMenu.main', 'Edit Rect', coreMenuStyle)
 WarMenu.CreateSubMenu('editor.DrawsMenu.img', 'editor.DrawsMenu.main', 'Edit Texture', coreMenuStyle)
+WarMenu.CreateSubMenu('editor.DrawsMenu.cam', 'editor.DrawsMenu.main', 'Edit Camera', coreMenuStyle)
 
 AddEventHandler('drawEditorV:OpenProjectMenu', function()
     if not WarMenu.IsAnyMenuOpened() and view == 'project' then

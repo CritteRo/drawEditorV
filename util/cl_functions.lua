@@ -120,6 +120,39 @@ function editorCreateNewImgDraw(_nick, _copy)
     end
 end
 
+function editorCreateNewCamDraw(_nick, _copy)
+    project.drawNicks[#project.drawNicks + 1] = _nick
+    if _copy ~= nil then
+        project.draws[_nick] = {
+            type = 'cam',
+            nick = _nick,
+            posX = project.draws[_copy].posX,
+            posY = project.draws[_copy].posY,
+            posZ = project.draws[_copy].posZ,
+            rotX = project.draws[_copy].rotX,
+            rotY = project.draws[_copy].rotY,
+            rotZ = project.draws[_copy].rotZ,
+            fov = project.draws[_copy].fov,
+            shakeType = project.draws[_copy].shakeType, --
+            shakeAmplitude = project.draws[_copy].shakeAmplitude,
+        }
+    else
+        project.draws[_nick] = {
+            type = 'cam',
+            nick = _nick,
+            posX = 0.0,
+            posY = 0.0,
+            posZ = 0.0,
+            rotX = 0.0,
+            rotY = 0.0,
+            rotZ = 0.0,
+            fov = 60.0,
+            shakeType = "", --
+            shakeAmplitude = 0.0,
+        }
+    end
+end
+
 function alert(text)
     SetTextComponentFormat("STRING")
     AddTextComponentString(text)
