@@ -9,6 +9,7 @@ WarMenu.CreateMenu('editor.ProjectMenu.main', 'drawEditorV', 'Select a project',
 
 WarMenu.CreateMenu('editor.DrawsMenu.main', 'drawEditorV', 'Main Menu', coreMenuStyle)
 WarMenu.CreateSubMenu('editor.DrawsMenu.newElement', 'editor.DrawsMenu.main', 'New Element', coreMenuStyle)
+WarMenu.CreateSubMenu('editor.DrawsMenu.reOrder', 'editor.DrawsMenu.main', 'Reorder Elements', coreMenuStyle)
 WarMenu.CreateSubMenu('editor.DrawsMenu.text', 'editor.DrawsMenu.main', 'Edit Text', coreMenuStyle)
 WarMenu.CreateSubMenu('editor.DrawsMenu.rect', 'editor.DrawsMenu.main', 'Edit Rect', coreMenuStyle)
 WarMenu.CreateSubMenu('editor.DrawsMenu.img', 'editor.DrawsMenu.main', 'Edit Texture', coreMenuStyle)
@@ -95,6 +96,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
     while true do
         if WarMenu.Begin('editor.DrawsMenu.main') then
             WarMenu.MenuButton('Create new element:', 'editor.DrawsMenu.newElement')
+            WarMenu.MenuButton('Reorder Elements', 'editor.DrawsMenu.reOrder')
             for i,k in pairs(project.drawNicks) do
                 WarMenu.Button('Edit "~y~'..k..'~s~" '..project.draws[k].type)
                 if WarMenu.IsItemSelected() then
@@ -227,6 +229,36 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     WarMenu.OpenMenu('editor.DrawsMenu.main')
                 end
             end
+            WarMenu.End()
+        elseif WarMenu.Begin('editor.DrawsMenu.reOrder') then ---------------------------------------------------------------------------------------
+            DisableControlAction(0, 37, true)
+            for _,o in pairs(project.drawNicks) do
+                WarMenu.Button(o)
+                if WarMenu.IsItemHovered() then
+                    
+                    if IsDisabledControlPressed(0, 37) then
+                        WarMenu.ToolTip("Use the arrow keys to move the element order")
+                        if IsDisabledControlJustReleased(0, 188) then
+                            if project.drawNicks[_-1] ~= nil then
+                                local temp = project.drawNicks[_-1]
+                                project.drawNicks[_-1] = o
+                                project.drawNicks[_] = temp
+                            end
+                        end
+    
+                        if IsDisabledControlJustReleased(0, 187) then
+                            if project.drawNicks[_+1] ~= nil then
+                                local temp = project.drawNicks[_+1]
+                                project.drawNicks[_+1] = o
+                                project.drawNicks[_] = temp
+                            end
+                        end
+                    else
+                        WarMenu.ToolTip("Hold TAB to reoder the element")
+                    end
+                    
+                end
+            end  
             WarMenu.End()
         elseif WarMenu.Begin('editor.DrawsMenu.text') then ---------------------------------------------------------------------------------------
             WarMenu.Button('Change Coords (Mouse)')

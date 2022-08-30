@@ -54,6 +54,8 @@ project = {
     },
 }
 
+tempProject = {}
+
 Citizen.CreateThread(function()
     requestButtonScaleform()
     setInstructionalButtons(instButtonText[view])
@@ -83,7 +85,8 @@ Citizen.CreateThread(function()
         end
 
         if view == 'draws' then
-            for i,k in pairs(project.draws) do
+            for i,v in pairs(project.drawNicks) do
+                local k = project.draws[v]
                 if k.type == 'text' then
                     drawText(k)
                 elseif k.type == 'rect' then
@@ -98,7 +101,8 @@ Citizen.CreateThread(function()
             end
             --local x,y = GetCursorPosition()
             --drawText2(x+0.000001, y+0.000001)
-            for i,k in pairs(project.draws) do
+            for i,v in pairs(project.drawNicks) do
+                local k = project.draws[v]
                 if k.nick ~= currentDraw then
                     if k.type == 'text' then
                         drawText(k, 80)
