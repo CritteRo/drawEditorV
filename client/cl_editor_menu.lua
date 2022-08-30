@@ -359,23 +359,13 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 WarMenu.CloseMenu()
             end
 
-            WarMenu.Button('Save')
+            WarMenu.Button('Back')
             if WarMenu.IsItemSelected() then
                 project.draws[currentDraw] = editedDraw
                 currentDraw = 0
                 editedDraw = {}
                 clearInstructionalButtons()
                 view = "draws"
-                setInstructionalButtons(instButtonText[view])
-                WarMenu.CloseMenu()
-                WarMenu.OpenMenu('editor.DrawsMenu.main')
-            end
-            WarMenu.Button('Cancel')
-            if WarMenu.IsItemSelected() then
-                view = "draws"
-                editedDraw = project.draws[currentDraw]
-                currentDraw = 0
-                clearInstructionalButtons()
                 setInstructionalButtons(instButtonText[view])
                 WarMenu.CloseMenu()
                 WarMenu.OpenMenu('editor.DrawsMenu.main')
@@ -435,23 +425,13 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     end
                 end
             end
-            WarMenu.Button('Save')
+            WarMenu.Button('Back')
             if WarMenu.IsItemSelected() then
                 project.draws[currentDraw] = editedDraw
                 currentDraw = 0
                 editedDraw = {}
                 clearInstructionalButtons()
                 view = "draws"
-                setInstructionalButtons(instButtonText[view])
-                WarMenu.CloseMenu()
-                WarMenu.OpenMenu('editor.DrawsMenu.main')
-            end
-            WarMenu.Button('Cancel')
-            if WarMenu.IsItemSelected() then
-                view = "draws"
-                editedDraw = project.draws[currentDraw]
-                currentDraw = 0
-                clearInstructionalButtons()
                 setInstructionalButtons(instButtonText[view])
                 WarMenu.CloseMenu()
                 WarMenu.OpenMenu('editor.DrawsMenu.main')
@@ -525,23 +505,13 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     end
                 end
             end
-            WarMenu.Button('Save')
+            WarMenu.Button('Back')
             if WarMenu.IsItemSelected() then
                 project.draws[currentDraw] = editedDraw
                 currentDraw = 0
                 editedDraw = {}
                 clearInstructionalButtons()
                 view = "draws"
-                setInstructionalButtons(instButtonText[view])
-                WarMenu.CloseMenu()
-                WarMenu.OpenMenu('editor.DrawsMenu.main')
-            end
-            WarMenu.Button('Cancel')
-            if WarMenu.IsItemSelected() then
-                view = "draws"
-                editedDraw = project.draws[currentDraw]
-                currentDraw = 0
-                clearInstructionalButtons()
                 setInstructionalButtons(instButtonText[view])
                 WarMenu.CloseMenu()
                 WarMenu.OpenMenu('editor.DrawsMenu.main')
