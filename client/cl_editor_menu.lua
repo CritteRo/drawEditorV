@@ -313,7 +313,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 end
                 if (GetOnscreenKeyboardResult()) then
                     editedDraw.colour.r = tonumber(GetOnscreenKeyboardResult())
-                    if editedDraw.colour.r == nil then editedDraw.colour.r = 0
+                    if editedDraw.colour.r == nil then editedDraw.colour.r = 0 end
                     AddTextEntry('EDI_NEW_TXT', "Set ~g~GREEN~s~ color:")
                     DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.colour.g, "", "", "", 3)
                     while (UpdateOnscreenKeyboard() == 0) do
@@ -322,7 +322,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     end
                     if (GetOnscreenKeyboardResult()) then
                         editedDraw.colour.g = tonumber(GetOnscreenKeyboardResult())
-                        if editedDraw.colour.g == nil then editedDraw.colour.g = 0
+                        if editedDraw.colour.g == nil then editedDraw.colour.g = 0 end
                         AddTextEntry('EDI_NEW_TXT', "Set ~b~BLUE~s~ color:")
                         DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.colour.b, "", "", "", 3)
                         while (UpdateOnscreenKeyboard() == 0) do
@@ -331,7 +331,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                         end
                         if (GetOnscreenKeyboardResult()) then
                             editedDraw.colour.b = tonumber(GetOnscreenKeyboardResult())
-                            if editedDraw.colour.b == nil then editedDraw.colour.b = 0
+                            if editedDraw.colour.b == nil then editedDraw.colour.b = 0 end
                             AddTextEntry('EDI_NEW_TXT', "Set ALPHA:")
                             DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.colour.a, "", "", "", 3)
                             while (UpdateOnscreenKeyboard() == 0) do
@@ -340,7 +340,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                             end
                             if (GetOnscreenKeyboardResult()) then
                                 editedDraw.colour.a = tonumber(GetOnscreenKeyboardResult())
-                                if editedDraw.colour.a == nil then editedDraw.colour.a = 0
+                                if editedDraw.colour.a == nil then editedDraw.colour.a = 0 end
                             end
                         end
                     end
@@ -400,7 +400,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 end
                 if (GetOnscreenKeyboardResult()) then
                     editedDraw.r = tonumber(GetOnscreenKeyboardResult())
-                    if editedDraw.r == nil then editedDraw.r = 0
+                    if editedDraw.r == nil then editedDraw.r = 0 end
                     AddTextEntry('EDI_NEW_TXT', "Set ~g~GREEN~s~ color:")
                     DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.g, "", "", "", 3)
                     while (UpdateOnscreenKeyboard() == 0) do
@@ -409,7 +409,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     end
                     if (GetOnscreenKeyboardResult()) then
                         editedDraw.g = tonumber(GetOnscreenKeyboardResult())
-                        if editedDraw.g == nil then editedDraw.g = 0
+                        if editedDraw.g == nil then editedDraw.g = 0 end
                         AddTextEntry('EDI_NEW_TXT', "Set ~b~BLUE~s~ color:")
                         DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.b, "", "", "", 3)
                         while (UpdateOnscreenKeyboard() == 0) do
@@ -418,7 +418,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                         end
                         if (GetOnscreenKeyboardResult()) then
                             editedDraw.b = tonumber(GetOnscreenKeyboardResult())
-                            if editedDraw.b == nil then editedDraw.b = 0
+                            if editedDraw.b == nil then editedDraw.b = 0 end
                             AddTextEntry('EDI_NEW_TXT', "Set ALPHA:")
                             DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.a, "", "", "", 3)
                             while (UpdateOnscreenKeyboard() == 0) do
@@ -427,7 +427,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                             end
                             if (GetOnscreenKeyboardResult()) then
                                 editedDraw.a = tonumber(GetOnscreenKeyboardResult())
-                                if editedDraw.a == nil then editedDraw.a = 0
+                                if editedDraw.a == nil then editedDraw.a = 0 end
                             end
                         end
                     end
@@ -484,7 +484,9 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 end
                 if (GetOnscreenKeyboardResult()) then
                     editedDraw.r = tonumber(GetOnscreenKeyboardResult())
-                    if editedDraw.r == nil then editedDraw.r = 0
+                    if editedDraw.r == nil then
+                        editedDraw.r = 0
+                    end
                     AddTextEntry('EDI_NEW_TXT', "Set ~g~GREEN~s~ color:")
                     DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.g, "", "", "", 3)
                     while (UpdateOnscreenKeyboard() == 0) do
@@ -493,7 +495,9 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     end
                     if (GetOnscreenKeyboardResult()) then
                         editedDraw.g = tonumber(GetOnscreenKeyboardResult())
-                        if editedDraw.g == nil then editedDraw.g = 0
+                        if editedDraw.g == nil then
+                            editedDraw.g = 0
+                        end
                         AddTextEntry('EDI_NEW_TXT', "Set ~b~BLUE~s~ color:")
                         DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.b, "", "", "", 3)
                         while (UpdateOnscreenKeyboard() == 0) do
@@ -502,7 +506,9 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                         end
                         if (GetOnscreenKeyboardResult()) then
                             editedDraw.b = tonumber(GetOnscreenKeyboardResult())
-                            if editedDraw.b == nil then editedDraw.b = 0
+                            if editedDraw.b == nil then
+                                editedDraw.b = 0
+                            end
                             AddTextEntry('EDI_NEW_TXT', "Set ALPHA:")
                             DisplayOnscreenKeyboard(1, "EDI_NEW_TXT", "", editedDraw.a, "", "", "", 3)
                             while (UpdateOnscreenKeyboard() == 0) do
@@ -511,7 +517,9 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                             end
                             if (GetOnscreenKeyboardResult()) then
                                 editedDraw.a = tonumber(GetOnscreenKeyboardResult())
-                                if editedDraw.a == nil then editedDraw.a = 0
+                                if editedDraw.a == nil then
+                                    editedDraw.a = 0
+                                end
                             end
                         end
                     end
