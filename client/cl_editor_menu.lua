@@ -10,6 +10,7 @@ WarMenu.CreateMenu('editor.ProjectMenu.main', 'drawEditorV', 'Select a project',
 WarMenu.CreateMenu('editor.DrawsMenu.main', 'drawEditorV', 'Main Menu', coreMenuStyle)
 WarMenu.CreateSubMenu('editor.DrawsMenu.newElement', 'editor.DrawsMenu.main', 'New Element', coreMenuStyle)
 WarMenu.CreateSubMenu('editor.DrawsMenu.reOrder', 'editor.DrawsMenu.main', 'Reorder Elements', coreMenuStyle)
+WarMenu.CreateSubMenu('editor.DrawsMenu.remove', 'editor.DrawsMenu.main', 'Remove Elements', coreMenuStyle)
 WarMenu.CreateSubMenu('editor.DrawsMenu.text', 'editor.DrawsMenu.main', 'Edit Text', coreMenuStyle)
 WarMenu.CreateSubMenu('editor.DrawsMenu.rect', 'editor.DrawsMenu.main', 'Edit Rect', coreMenuStyle)
 WarMenu.CreateSubMenu('editor.DrawsMenu.img', 'editor.DrawsMenu.main', 'Edit Texture', coreMenuStyle)
@@ -97,6 +98,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
         if WarMenu.Begin('editor.DrawsMenu.main') then
             WarMenu.MenuButton('Create new element:', 'editor.DrawsMenu.newElement')
             WarMenu.MenuButton('Reorder Elements', 'editor.DrawsMenu.reOrder')
+            WarMenu.MenuButton('Remove Elements', 'editor.DrawsMenu.remove')
             for i,k in pairs(project.drawNicks) do
                 WarMenu.Button('Edit "~y~'..k..'~s~" '..project.draws[k].type)
                 if WarMenu.IsItemSelected() then
@@ -155,7 +157,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                     else
                         editorCreateNewTextDraw(GetOnscreenKeyboardResult())
                     end
-                    --WarMenu.CloseMenu()
+                    WarMenu.CloseMenu()
                     WarMenu.OpenMenu('editor.DrawsMenu.main')
                 end
             end
@@ -257,6 +259,19 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                         WarMenu.ToolTip("Hold TAB to reoder the element")
                     end
                     
+                end
+            end  
+            WarMenu.End()
+        elseif WarMenu.Begin('editor.DrawsMenu.remove') then ---------------------------------------------------------------------------------------
+            DisableControlAction(0, 37, true)
+            for _,o in pairs(project.drawNicks) do
+                WarMenu.Button(o)
+                if WarMenu.IsItemHovered() then
+                    WarMenu.ToolTip("Select this to ~r~remove~s~ the element ~r~without any warning!~s~")
+                end
+                if WarMenu.IsItemSelected() then
+                    project.draws[o] = nil
+                    project.drawNicks[_] = nil
                 end
             end  
             WarMenu.End()
@@ -371,7 +386,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 clearInstructionalButtons()
                 view = "draws"
                 setInstructionalButtons(instButtonText[view])
-                WarMenu.CloseMenu()
+                --WarMenu.CloseMenu()
                 WarMenu.OpenMenu('editor.DrawsMenu.main')
             end
             WarMenu.End()
@@ -441,7 +456,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 clearInstructionalButtons()
                 view = "draws"
                 setInstructionalButtons(instButtonText[view])
-                WarMenu.CloseMenu()
+                --WarMenu.CloseMenu()
                 WarMenu.OpenMenu('editor.DrawsMenu.main')
             end
             WarMenu.End()
@@ -533,7 +548,7 @@ AddEventHandler('drawEditorV:OpenDrawsMenu', function()
                 clearInstructionalButtons()
                 view = "draws"
                 setInstructionalButtons(instButtonText[view])
-                WarMenu.CloseMenu()
+                --WarMenu.CloseMenu()
                 WarMenu.OpenMenu('editor.DrawsMenu.main')
             end
             WarMenu.End()
