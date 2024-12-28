@@ -9,6 +9,8 @@ editedDraw = {
 
 }
 
+pList = {}
+
 project = {
     name = "unk",
     drawNicks = {
@@ -55,6 +57,12 @@ project = {
 }
 
 tempProject = {}
+
+RegisterNetEvent('drawEditorV:ReceiveProjectList', function(output)
+    pList = output
+end)
+
+TriggerServerEvent('drawEditorV:RequestProjects')
 
 Citizen.CreateThread(function()
     requestButtonScaleform()

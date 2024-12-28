@@ -6,6 +6,7 @@ justifyItems = {"Center", "Left", "Right"}
 -- justifyItems2 = {"0", "1", "2"} -- Unused
 
 WarMenu.CreateMenu('editor.ProjectMenu.main', 'drawEditorV', 'Select a project', coreMenuStyle)
+WarMenu.CreateSubMenu('editor.ProjectMenu.load', 'editor.ProjectMenu.main', 'Load Existing Project', coreMenuStyle)
 
 WarMenu.CreateMenu('editor.DrawsMenu.main', 'drawEditorV', 'Main Menu', coreMenuStyle)
 WarMenu.CreateSubMenu('editor.DrawsMenu.newElement', 'editor.DrawsMenu.main', 'New Element', coreMenuStyle)
@@ -58,22 +59,18 @@ AddEventHandler('drawEditorV:OpenProjectMenu', function()
 
             WarMenu.Button('Load Existing Project')
             if WarMenu.IsItemHovered() then
-                WarMenu.ToolTip('Make sure the project file name is correct, and first line is intact! File extension is also needed!')
+                --WarMenu.ToolTip('Make sure the project file name is correct, and first line is intact! File extension is also needed!')
             end
             if WarMenu.IsItemSelected() then
-                AddTextEntry('EDI_NEW_PRJ', "Project filename (including file extension, CaSe SeNsItIvE)")
-                DisplayOnscreenKeyboard(1, "EDI_NEW_PRJ", "", "", "", "", "", 50)
-                while (UpdateOnscreenKeyboard() == 0) do
-                    DisableAllControlActions(0);
-                    Wait(0);
-                end
-                if (GetOnscreenKeyboardResult()) then
-                    if GetOnscreenKeyboardResult() ~= "" then
-                        result = GetOnscreenKeyboardResult()
-                        TriggerServerEvent('drawEditorV:LoadProject', result)
-                    else
-                        notify('Please specify the name.', 6)
-                    end
+                WarMenu.OpenMenu('editor.ProjectMenu.load')
+            end
+            WarMenu.End()
+        elseif WarMenu.Begin('editor.ProjectMenu.load') then
+            for i,k in pairs(pList) do
+                WarMenu.Button(k)
+                if WarMenu.IsItemSelected() then
+                    TriggerServerEvent('drawEditorV:LoadProject', k)
+                    WarMenu.CloseMenu()
                 end
             end
             WarMenu.End()
