@@ -4,6 +4,9 @@ game 'gta5'
 author 'CritteR & YOU(if you PR this)'
 description 'drawEditorV helps you easily create, modify and export to lua text and other drawables. Menu framework by Warxander'
 
+version '4'
+dependency '/server:12168'
+
 client_scripts {
     'util/warmenu.lua',
     'util/cl_functions.lua',
